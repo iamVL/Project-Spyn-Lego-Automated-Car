@@ -5,7 +5,7 @@ Project Spyn: Lego Automated Car - FSE, ASU
 - Improved autonomous toy car performance by utilizing MATLAB and EV3 utility files, resulting in more precise navigation and control.
 
 Names: 
-Vaishnavi Lokhande
-Aaleeiah Kinney
-Tracy Nguyen
-John Johnson (JJ)
+Vaishnavi Lokhande, 
+Aaleeiah Kinney, 
+Tracy Nguyen, 
+John Johnson (JJ).
