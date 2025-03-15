@@ -1,0 +1,83 @@
+motorlf = -51.5; % A
+motorrf = -50;   % B
+motorlb = 21.7;
+motorrb = 20;
+threshold = 50;
+pickup = 0;
+
+brick.MoveMotor('A', motorlf);
+brick.MoveMotor('B', motorrf);
+
+while 1
+    color = brick.ColorCode(2);
+    touch = brick.TouchPressed(1);
+    distance = brick.UltrasonicDist(3);
+
+    if color == 5  % If color is red, stop for 4 sec
+        disp('red');
+        brick.StopMotor('AB', 'Brake'); % Brake to prevent going off course
+        pause(1);  % Wait 4 seconds
+        brick.MoveMotor('A', motorlf);
+        brick.MoveMotor('B', motorrf);
+        pause(0.7);
+
+    elseif color == 4  % If color is green, activate keyboard control
+        disp('green');
+        run('keyb2');
+        brick.MoveMotor('A', motorlf);
+        brick.MoveMotor('B', motorrf);
+        pause(6);
+        pickup = 1;
+
+    elseif color == 2 && pickup == 1  % If color is blue, activate keyboard control
+        disp('blue');
+        run('keyb2');
+        brick.MoveMotor('A', motorlf);
+        brick.MoveMotor('B', motorrf);
+        pause(6);
+    end
+
+    % Move Forward
+    brick.MoveMotor('A', motorlf);
+    brick.MoveMotor('B', motorrf);
+
+    if (distance > threshold)
+        display(distance);
+        pause(0.6);  % Wait to get past wall
+        brick.StopMotor('AB', 'Brake');
+        brick.MoveMotor('B', -30);
+        pause(2.3);  % Turning time
+        brick.MoveMotor('B', 0);
+        brick.MoveMotor('A', motorlf);
+        brick.MoveMotor('B', motorrf);
+        pause(3);
+    end
+
+    if touch
+        pause(1);  % Keep going forward for a short period of time to calibrate
+        disp('touched');
+        brick.MoveMotor('AB', 0); % Stop
+        display(distance);  % Get distance from right wall
+        brick.MoveMotor('A', motorlb);
+        brick.MoveMotor('B', motorrb);
+        pause(3.5);  % Time to back up from the wall
+        brick.MoveMotor('AB', 0); % Stop
+
+        if (distance < threshold)
+            brick.MoveMotor('A', -30);
+            pause(2.7);
+            brick.MoveMotor('A', 0);
+            brick.MoveMotor('A', motorlf);
+            brick.MoveMotor('B', motorrf);
+            pause(2);
+        else
+            brick.MoveMotor('B', -30);
+            pause(2.37);
+            brick.MoveMotor('B', 0);
+            brick.MoveMotor('A', motorlf);
+            brick.MoveMotor('B', motorrf);
+            pause(2);
+        end
+    end
+end
+
