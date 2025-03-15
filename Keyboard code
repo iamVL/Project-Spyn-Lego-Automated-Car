@@ -1,0 +1,34 @@
+global key
+InitKeyboard();
+
+while 1
+    pause(0.1);
+    switch key
+        case 'uparrow'
+            brick.MoveMotor('AB', -50);
+
+        case 'downarrow'
+            brick.MoveMotor('AB', 50);  
+
+        case 'leftarrow'
+            brick.MoveMotor('B', -30);
+
+        case 'rightarrow'
+            brick.MoveMotor('A', -30);
+
+        case 'a'
+            brick.MoveMotor('D', 10);
+
+        case 'b'
+            brick.MoveMotor('D', -10); % Added missing semicolon
+
+        case 0
+            brick.StopMotor('ABD');
+
+        case 'q'
+            disp("exit");
+            break;
+    end
+end
+
+CloseKeyboard();
